@@ -16,16 +16,12 @@ namespace FabrikaÜretim
         public Form1()
         {
             InitializeComponent();
-            dataGridViewTablo.Columns["ID"].ValueType = typeof(int);
-            dataGridViewTablo.Columns["SeriNumarasi"].ValueType = typeof(string);
             label1.Visible = false;
             textBoxSeriNo.Visible = false;
             dataGridViewTablo.Visible = false;
             buttonKaydet.Visible = false;   
 
         }
-        private int idSayac = 1;
-
         private void comboBoxLokasyon_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxLokasyon.SelectedItem != null)
@@ -37,22 +33,25 @@ namespace FabrikaÜretim
                 buttonKaydet.Visible = true;
             }
         }
+
         private void textBoxSeriNo_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
             {
-                string seriNo = textBoxSeriNo.Text;
-
-                if (!string.IsNullOrEmpty(seriNo))
+                try
                 {
-                    dataGridViewTablo.Rows.Add(idSayac, seriNo);
-                    idSayac++;
+                    dataGridViewTablo.AllowUserToAddRows = false; // boş satırı kaldırıyoruz
+                    long SeriNo = Convert.ToInt64(textBoxSeriNo.Text);
+                    int ID = dataGridViewTablo.Rows.Count + 1; //satır sayısına 1 ekle
+                    dataGridViewTablo.Rows.Add(ID, SeriNo);
                     textBoxSeriNo.Clear();
+                    textBoxSeriNo.Focus();
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("Lütfen bir seri numarası girin.");
+                    MessageBox.Show("Lütfen doğru Seri Numarası giriniz!");
                 }
+
             }
         }
 
@@ -60,87 +59,29 @@ namespace FabrikaÜretim
         {
             try
             {
-                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string filePath = Path.Combine(desktopPath, $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv");
+                string CSVKonumu = @"C:\Users\ÖmerSelimBERK\Desktop";
+                string CSVAdı = $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv";
+                string CSVK = Path.Combine(CSVKonumu, CSVAdı);
 
-                using (StreamWriter writer = new StreamWriter(filePath))
+                using (StreamWriter writer = new StreamWriter(CSVK))
                 {
-                    writer.WriteLine("ID;SeriNumarasi");
-
-                    foreach (DataGridViewRow row in dataGridViewTablo.Rows)
+                    writer.WriteLine("ID;SeriNumarasi"); // Başlık satırında da ; kullanılıyor
+                    for (int i = 0; i < dataGridViewTablo.Rows.Count; i++)
                     {
-                        if (!row.IsNewRow)
+                        if (!dataGridViewTablo.Rows[i].IsNewRow) // Yeni satırı hariç tut
                         {
-                            string id = row.Cells["ID"].Value?.ToString();
-                            string seriNumarasi = row.Cells["SeriNumarasi"].Value?.ToString();
+                            string id = dataGridViewTablo.Rows[i].Cells[0].Value?.ToString() ?? ""; // ID sütunu
+                            string seriNo = dataGridViewTablo.Rows[i].Cells[1].Value?.ToString() ?? ""; // SeriNumarasi sütunu
 
-                            writer.WriteLine($"{id};{seriNumarasi}");
+                            writer.WriteLine($"{id};{seriNo}");
                         }
                     }
                 }
-                MessageBox.Show("Veriler başarıyla kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Verileriniz başarılı bir şekilde kaydedildi!", "Kaydedildi", MessageBoxButtons.OK);
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Hata: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Lokasyonu ComboBox'tan al
-                string lokasyon = comboBoxLokasyon.Text;
-                if (string.IsNullOrWhiteSpace(lokasyon))
-                {
-                    MessageBox.Show("Lütfen bir lokasyon seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Masaüstü yolunu al ve dosya yolunu oluştur
-                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string fileName = $"{DateTime.Now.Year}_{lokasyon}.csv";
-                string filePath = Path.Combine(desktopPath, fileName);
-
-                // Dosya mevcut mu kontrol et
-                if (!File.Exists(filePath))
-                {
-                    MessageBox.Show($"Bu yıl ve lokasyona ait dosya bulunamadı: {fileName}", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                // CSV dosyasını oku ve DataGridView'e yükle
-                using (StreamReader reader = new StreamReader(filePath))
-                {
-                    dataGridViewTablo.Rows.Clear(); // Mevcut verileri temizle
-                    dataGridViewTablo.Columns.Clear(); // Eski sütunları temizle
-
-                    // İlk satırda sütun başlıkları var, bunları ekle
-                    string headerLine = reader.ReadLine();
-                    if (headerLine != null)
-                    {
-                        string[] headers = headerLine.Split(',');
-                        foreach (string header in headers)
-                        {
-                            dataGridViewTablo.Columns.Add(header, header);
-                        }
-                    }
-
-                    // Diğer satırları oku ve DataGridView'e ekle
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string[] values = line.Split(',');
-                        dataGridViewTablo.Rows.Add(values);
-                    }
-                }
-
-                MessageBox.Show("Veriler başarıyla yüklendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hata: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Verileriniz kaydedilemedi lütfen tekrar deneyiniz!","Kaydedilemedi", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
     }
