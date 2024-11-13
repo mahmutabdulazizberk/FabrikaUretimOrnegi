@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FabrikaÜretim
 {
@@ -19,8 +20,7 @@ namespace FabrikaÜretim
             label1.Visible = false;
             textBoxSeriNo.Visible = false;
             dataGridViewTablo.Visible = false;
-            buttonKaydet.Visible = false;   
-
+            buttonKaydet.Visible = false;
         }
         private void comboBoxLokasyon_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -33,29 +33,60 @@ namespace FabrikaÜretim
                 buttonKaydet.Visible = true;
             }
         }
-
+        int IDplus = 1;
         private void textBoxSeriNo_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
             {
                 try
                 {
-                    dataGridViewTablo.AllowUserToAddRows = false; // boş satırı kaldırıyoruz
                     long SeriNo = Convert.ToInt64(textBoxSeriNo.Text);
-                    int ID = dataGridViewTablo.Rows.Count + 1; //satır sayısına 1 ekle
+                    int ID = IDplus++;
                     dataGridViewTablo.Rows.Add(ID, SeriNo);
                     textBoxSeriNo.Clear();
                     textBoxSeriNo.Focus();
+
                 }
                 catch
                 {
                     MessageBox.Show("Lütfen doğru Seri Numarası giriniz!");
                 }
-
             }
         }
 
         private void buttonKaydet_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void buttonYukle_Click(object sender, EventArgs e)
+        {
+            string CSVKonumu = @"C:\Users\ÖmerSelimBERK\Desktop";
+            string CSVAdı = $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv";
+            string CSVK = Path.Combine(CSVKonumu, CSVAdı);
+            if (File.Exists(CSVK)) 
+            {
+                using (StreamReader reader = new StreamReader(CSVK))
+                {
+                    string satır;
+                    reader.ReadLine(); //ilk satırı oku
+                    while ((satır = reader.ReadLine()) != null) 
+                    {
+                        string[] values = satır.Split(';');
+                        if (values.Length > 1)
+                        {
+                            dataGridViewTablo.Rows.Add(values[0], values[1]);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Hatalı veri formatı: " + satır);
+                        }
+                    }
+                }
+            }
+            else MessageBox.Show("Dosya bulunamadı!");
+        }
+        private void SaveToCSV()
         {
             try
             {
@@ -63,7 +94,7 @@ namespace FabrikaÜretim
                 string CSVAdı = $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv";
                 string CSVK = Path.Combine(CSVKonumu, CSVAdı);
 
-                using (StreamWriter writer = new StreamWriter(CSVK))
+                using (StreamWriter writer = new StreamWriter(CSVK, true))
                 {
                     writer.WriteLine("ID;SeriNumarasi"); // Başlık satırında da ; kullanılıyor
                     for (int i = 0; i < dataGridViewTablo.Rows.Count; i++)
@@ -81,8 +112,34 @@ namespace FabrikaÜretim
             }
             catch
             {
-                MessageBox.Show("Verileriniz kaydedilemedi lütfen tekrar deneyiniz!","Kaydedilemedi", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Verileriniz kaydedilemedi lütfen tekrar deneyiniz!", "Kaydedilemedi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private int SonID(string CSVK)
+        {
+            int sonID = 0; 
+
+            if (File.Exists(CSVK)) 
+            {
+                using (StreamReader reader = new StreamReader(CSVK)) 
+                {
+                    string satır;
+                    string sonsatır = null; 
+                    while ((satır = reader.ReadLine()) != null)
+                    {
+                        sonsatır = satır;
+                    }
+                    if (!string.IsNullOrEmpty(sonsatır))
+                    {
+                        string[] values = sonsatır.Split(';'); 
+                        if (values.Length > 0 && int.TryParse(values[0], out sonID))
+                        {
+                            return sonID;
+                        }
+                    }
+                }
+            }
+            return sonID;
         }
     }
 }
