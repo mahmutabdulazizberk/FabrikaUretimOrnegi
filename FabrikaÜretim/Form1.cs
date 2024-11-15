@@ -23,36 +23,40 @@ namespace FabrikaÜretim
         }
         private void comboBoxLokasyon_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxLokasyon.SelectedItem != null)
+            if (comboBoxLokasyon.SelectedItem != null) 
             {
-                string CSVKonumu = @"C:\Users\ÖmerSelimBERK\Desktop";
-                string CSVAdı = $"{DateTime.Now:yyyy}_{comboBoxLokasyon.SelectedItem.ToString()}.csv";
-                string CSVK = Path.Combine(CSVKonumu, CSVAdı);
-                if (File.Exists(CSVK))
+                string CSVK = @"C:\Users\ÖmerSelimBERK\Desktop" + "\\" + $"{DateTime.Now:yyyy}_{comboBoxLokasyon.SelectedItem.ToString()}.csv";
+
+                if (File.Exists(CSVK)) 
                 {
-                    var result = MessageBox.Show($"Seçtiğiniz {comboBoxLokasyon.SelectedItem.ToString()} lokasyonu ve {DateTime.Now.Year} yılına ait bir CSV dosyası bulundu. Devam etmek ister misiniz?", "Dosya Bulundu",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information);
-                    if (result == DialogResult.Yes)
+                    var mesaj = MessageBox.Show(
+                        $"Seçtiğiniz {comboBoxLokasyon.SelectedItem.ToString()} lokasyonu ve {DateTime.Now.Year} yılına ait bir CSV dosyası bulundu. Devam etmek ister misiniz?",
+                        "Dosya Bulundu",
+                        MessageBoxButtons.YesNo, 
+                        MessageBoxIcon.Information); 
+
+                    if (mesaj == DialogResult.Yes) 
                     {
                         CSVYukle();
                     }
                 }
-                comboBoxLokasyon.Enabled = false;
-                label1.Visible = true;
-                textBoxSeriNo.Visible = true;
-                dataGridViewTablo.Visible = true;
-            }
 
+                comboBoxLokasyon.Enabled = false; 
+                label1.Visible = true; 
+                textBoxSeriNo.Visible = true;
+                dataGridViewTablo.Visible = true; 
+            }
         }
+
         int IDplus = 1;
+
         private void textBoxSeriNo_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Tab)
+            if (e.KeyCode == Keys.Tab) 
             {
                 try
                 {
-                    long SeriNo = Convert.ToInt64(textBoxSeriNo.Text);
+                    long SeriNo = Convert.ToInt64(textBoxSeriNo.Text); 
                     int ID = IDplus++;
                     dataGridViewTablo.Rows.Add(ID, SeriNo);
                     CSVKaydet();
@@ -65,20 +69,23 @@ namespace FabrikaÜretim
                 }
             }
         }
+
         private int SonID(string CSVK)
         {
+ 
             int sonID = 0;
 
-            if (File.Exists(CSVK))
+            if (File.Exists(CSVK)) 
             {
-                using (StreamReader reader = new StreamReader(CSVK))
+                using (StreamReader reader = new StreamReader(CSVK)) 
                 {
                     string satır;
                     string sonsatır = null;
-                    while ((satır = reader.ReadLine()) != null)
+                    while ((satır = reader.ReadLine()) != null) 
                     {
-                        sonsatır = satır;
+                        sonsatır = satır; 
                     }
+
                     if (!string.IsNullOrEmpty(sonsatır))
                     {
                         string[] values = sonsatır.Split(';');
@@ -91,6 +98,7 @@ namespace FabrikaÜretim
             }
             return sonID;
         }
+
         private void CSVKaydet()
         {
             string CSVKonumu = @"C:\Users\ÖmerSelimBERK\Desktop";
@@ -99,24 +107,29 @@ namespace FabrikaÜretim
             {
                 try
                 {
-                    string CSVAdı = $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv";
-                    string CSVK = Path.Combine(CSVKonumu, CSVAdı);
-
-                    using (StreamWriter writer = new StreamWriter(CSVK, true))
+                    string CSVK = CSVKonumu + "\\" + $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv"; 
+                    using (StreamWriter writer = new StreamWriter(CSVK, true)) 
                     {
                         if (new FileInfo(CSVK).Length == 0)
                         {
                             writer.WriteLine("ID;SeriNumarasi");
                         }
+
                         for (int i = 0; i < dataGridViewTablo.Rows.Count; i++)
                         {
-                            if (!dataGridViewTablo.Rows[i].IsNewRow) // Yeni satırı hariç tut
-                            {
-                                string id = dataGridViewTablo.Rows[i].Cells[0].Value?.ToString() ?? ""; // ID sütunu
-                                string seriNo = dataGridViewTablo.Rows[i].Cells[1].Value?.ToString() ?? ""; // SeriNumarasi sütunu
+                            string id = "";
+                            string seriNo = "";
 
-                                writer.WriteLine($"{id};{seriNo}");
+                            if (dataGridViewTablo.Rows[i].Cells[0].Value != null)
+                            {
+                                id = dataGridViewTablo.Rows[i].Cells[0].Value.ToString();
                             }
+                            if (dataGridViewTablo.Rows[i].Cells[1].Value != null)
+                            {
+                                seriNo = dataGridViewTablo.Rows[i].Cells[1].Value.ToString();
+                            }
+
+                            writer.WriteLine($"{id};{seriNo}");
                         }
                     }
                 }
@@ -130,23 +143,19 @@ namespace FabrikaÜretim
                 try
                 {
                     string CSVAdı = $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv";
-                    string CSVK = Path.Combine(CSVKonumu, CSVAdı);
-
+                    string CSVK = CSVKonumu+"\\"+CSVAdı;
                     using (StreamWriter writer = new StreamWriter(CSVK, false))
                     {
                         if (new FileInfo(CSVK).Length == 0)
                         {
-                            writer.WriteLine("ID;SeriNumarasi"); // Başlık satırında da ; kullanılıyor
+                            writer.WriteLine("ID;SeriNumarasi");
                         }
+
                         for (int i = 0; i < dataGridViewTablo.Rows.Count; i++)
                         {
-                            if (!dataGridViewTablo.Rows[i].IsNewRow) // Yeni satırı hariç tut
-                            {
-                                string id = dataGridViewTablo.Rows[i].Cells[0].Value?.ToString() ?? ""; // ID sütunu
-                                string seriNo = dataGridViewTablo.Rows[i].Cells[1].Value?.ToString() ?? ""; // SeriNumarasi sütunu
-
-                                writer.WriteLine($"{id};{seriNo}");
-                            }
+                            string id = dataGridViewTablo.Rows[i].Cells[0].Value.ToString();
+                            string seriNo = dataGridViewTablo.Rows[i].Cells[1].Value.ToString();
+                            writer.WriteLine($"{id};{seriNo}");
                         }
                     }
                 }
@@ -158,19 +167,21 @@ namespace FabrikaÜretim
         }
         private void CSVYukle()
         {
-            string CSVKonumu = @"C:\Users\ÖmerSelimBERK\Desktop";
-            string CSVAdı = $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv";
-            string CSVK = Path.Combine(CSVKonumu, CSVAdı);
+            string CSVK = @"C:\Users\ÖmerSelimBERK\Desktop" + "\\" + $"{DateTime.Now:yyyy}_{comboBoxLokasyon.Text}.csv";
+
             if (File.Exists(CSVK))
             {
                 IDplus = SonID(CSVK) + 1;
+
                 using (StreamReader reader = new StreamReader(CSVK))
                 {
                     string satır;
                     reader.ReadLine();
+
                     while ((satır = reader.ReadLine()) != null)
                     {
                         string[] values = satır.Split(';');
+
                         if (values.Length > 1)
                         {
                             dataGridViewTablo.Rows.Add(values[0], values[1]);
@@ -182,7 +193,10 @@ namespace FabrikaÜretim
                     }
                 }
             }
-            else MessageBox.Show("Dosya bulunamadı!");
+            else
+            {
+                MessageBox.Show("Dosya bulunamadı!");
+            }
         }
     }
 }
