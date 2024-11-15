@@ -36,9 +36,7 @@
             this.SeriNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.buttonKaydet = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.buttonYukle = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTablo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,21 +48,22 @@
             "Kahramanmaraş Fabrikası",
             "Ankara Fabrikası",
             "İstanbul Fabrikası",
-            "Osmaniye Fabrikası"});
-            this.comboBoxLokasyon.Location = new System.Drawing.Point(412, 129);
+            "Osmaniye Fabrikası",
+            "Göllüce Fabrikası"});
+            this.comboBoxLokasyon.Location = new System.Drawing.Point(306, 135);
             this.comboBoxLokasyon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxLokasyon.Name = "comboBoxLokasyon";
-            this.comboBoxLokasyon.Size = new System.Drawing.Size(349, 37);
+            this.comboBoxLokasyon.Size = new System.Drawing.Size(458, 37);
             this.comboBoxLokasyon.TabIndex = 0;
             this.comboBoxLokasyon.SelectedIndexChanged += new System.EventHandler(this.comboBoxLokasyon_SelectedIndexChanged);
             // 
             // textBoxSeriNo
             // 
             this.textBoxSeriNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.textBoxSeriNo.Location = new System.Drawing.Point(412, 174);
+            this.textBoxSeriNo.Location = new System.Drawing.Point(306, 180);
             this.textBoxSeriNo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxSeriNo.Name = "textBoxSeriNo";
-            this.textBoxSeriNo.Size = new System.Drawing.Size(349, 34);
+            this.textBoxSeriNo.Size = new System.Drawing.Size(458, 34);
             this.textBoxSeriNo.TabIndex = 1;
             this.textBoxSeriNo.TabStop = false;
             this.textBoxSeriNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxSeriNo_KeyDown);
@@ -90,7 +89,7 @@
             this.dataGridViewTablo.RowHeadersVisible = false;
             this.dataGridViewTablo.RowHeadersWidth = 51;
             this.dataGridViewTablo.RowTemplate.Height = 24;
-            this.dataGridViewTablo.Size = new System.Drawing.Size(816, 150);
+            this.dataGridViewTablo.Size = new System.Drawing.Size(843, 150);
             this.dataGridViewTablo.TabIndex = 2;
             this.dataGridViewTablo.TabStop = false;
             // 
@@ -110,7 +109,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label1.Location = new System.Drawing.Point(156, 176);
+            this.label1.Location = new System.Drawing.Point(50, 182);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(229, 29);
             this.label1.TabIndex = 3;
@@ -120,24 +119,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label2.Location = new System.Drawing.Point(164, 130);
+            this.label2.Location = new System.Drawing.Point(58, 136);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(221, 29);
             this.label2.TabIndex = 4;
             this.label2.Text = "Fabrika Lokasyonu:";
-            // 
-            // buttonKaydet
-            // 
-            this.buttonKaydet.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.buttonKaydet.Location = new System.Drawing.Point(304, 242);
-            this.buttonKaydet.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonKaydet.Name = "buttonKaydet";
-            this.buttonKaydet.Size = new System.Drawing.Size(115, 39);
-            this.buttonKaydet.TabIndex = 5;
-            this.buttonKaydet.TabStop = false;
-            this.buttonKaydet.Text = "Kaydet";
-            this.buttonKaydet.UseVisualStyleBackColor = true;
-            this.buttonKaydet.Click += new System.EventHandler(this.buttonKaydet_Click);
             // 
             // label3
             // 
@@ -149,28 +135,12 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "DokuzTay Matbaa Tesisleri";
             // 
-            // buttonYukle
-            // 
-            this.buttonYukle.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.buttonYukle.Location = new System.Drawing.Point(425, 242);
-            this.buttonYukle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonYukle.Name = "buttonYukle";
-            this.buttonYukle.Size = new System.Drawing.Size(115, 39);
-            this.buttonYukle.TabIndex = 7;
-            this.buttonYukle.TabStop = false;
-            this.buttonYukle.Text = "Yükle";
-            this.buttonYukle.UseVisualStyleBackColor = true;
-            this.buttonYukle.Click += new System.EventHandler(this.buttonYukle_Click);
-            // 
             // Form1
             // 
-            this.AcceptButton = this.buttonKaydet;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 450);
-            this.Controls.Add(this.buttonYukle);
+            this.ClientSize = new System.Drawing.Size(867, 450);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.buttonKaydet);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridViewTablo);
@@ -193,9 +163,7 @@
         private System.Windows.Forms.DataGridView dataGridViewTablo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button buttonKaydet;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button buttonYukle;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeriNo;
     }
