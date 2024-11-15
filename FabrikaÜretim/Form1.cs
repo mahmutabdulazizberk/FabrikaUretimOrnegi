@@ -153,8 +153,18 @@ namespace FabrikaÜretim
 
                         for (int i = 0; i < dataGridViewTablo.Rows.Count; i++)
                         {
-                            string id = dataGridViewTablo.Rows[i].Cells[0].Value.ToString();
-                            string seriNo = dataGridViewTablo.Rows[i].Cells[1].Value.ToString();
+                            string id = "";
+                            string seriNo = "";
+
+                            if (dataGridViewTablo.Rows[i].Cells[0].Value != null)
+                            {
+                                id = dataGridViewTablo.Rows[i].Cells[0].Value.ToString();
+                            }
+                            if (dataGridViewTablo.Rows[i].Cells[1].Value != null)
+                            {
+                                seriNo = dataGridViewTablo.Rows[i].Cells[1].Value.ToString();
+                            }
+
                             writer.WriteLine($"{id};{seriNo}");
                         }
                     }
