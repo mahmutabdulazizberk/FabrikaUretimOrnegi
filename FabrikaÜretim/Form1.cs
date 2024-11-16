@@ -55,52 +55,62 @@ namespace FabrikaÜretim
             {
             if (e.KeyCode == Keys.Tab)
             {
-
-                if (düzenlemeModu == false) 
+                if (textBoxSeriNo.Text.Length == 7)
                 {
-                    try
+                    if (düzenlemeModu == false)
                     {
-                        long SeriNo = Convert.ToInt64(textBoxSeriNo.Text);
-                        if (SeriNoKullanilmis(SeriNo))
+                        try
                         {
-                            MessageBox.Show("Bu Seri Numarası zaten mevcut!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            long SeriNo = Convert.ToInt64(textBoxSeriNo.Text);
+                            if (SeriNoKullanilmis(SeriNo))
+                            {
+                                MessageBox.Show("Bu Seri Numarası zaten mevcut!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                textBoxSeriNo.Clear();
+                                textBoxSeriNo.Focus();
+                                return;
+                            }
+                            int ID = IDplus++;
+                            dataGridViewTablo.Rows.Add(ID, SeriNo);
                             textBoxSeriNo.Clear();
                             textBoxSeriNo.Focus();
-                            return;
+                            CSVKaydet();
                         }
-                        int ID = IDplus++;
-                        dataGridViewTablo.Rows.Add(ID, SeriNo);
-                        textBoxSeriNo.Clear();
-                        textBoxSeriNo.Focus();
-                        CSVKaydet();
+                        catch
+                        {
+                            MessageBox.Show("Lütfen doğru Seri Numarası giriniz!");
+                        }
                     }
-                    catch
+                    else
                     {
-                        MessageBox.Show("Lütfen doğru Seri Numarası giriniz!");
+                        try
+                        {
+                            long SeriNo = Convert.ToInt64(textBoxSeriNo.Text);
+                            if (SeriNoKullanilmis(SeriNo))
+                            {
+                                MessageBox.Show("Bu Seri Numarası zaten mevcut!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                textBoxSeriNo.Clear();
+                                textBoxSeriNo.Focus();
+                                return;
+                            }
+                            int ID = IDplus++;
+                            dataGridViewTablo.Rows.Add(ID, SeriNo);
+                            textBoxSeriNo.Clear();
+                            textBoxSeriNo.Focus();
+
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Lütfen doğru Seri Numarası giriniz!");
+                        }
                     }
+
                 }
                 else
                 {
-                    try
-                    {
-                        long SeriNo = Convert.ToInt64(textBoxSeriNo.Text);
-                        if (SeriNoKullanilmis(SeriNo))
-                        {
-                            MessageBox.Show("Bu Seri Numarası zaten mevcut!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            textBoxSeriNo.Clear();
-                            textBoxSeriNo.Focus();
-                            return;
-                        }
-                        int ID = IDplus++;
-                        dataGridViewTablo.Rows.Add(ID, SeriNo);
-                        textBoxSeriNo.Clear();
-                        textBoxSeriNo.Focus();
-
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Lütfen doğru Seri Numarası giriniz!");
-                    }
+                    MessageBox.Show("Seri Numarası 7 Haneli olmalıdır!", "Hata!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    textBoxSeriNo.Clear();
+                    textBoxSeriNo.Focus();
+                    return;
                 }
             }
         }
