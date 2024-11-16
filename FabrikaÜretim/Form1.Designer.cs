@@ -37,6 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTablo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,6 +71,7 @@
             // 
             // dataGridViewTablo
             // 
+            this.dataGridViewTablo.AllowUserToAddRows = false;
             this.dataGridViewTablo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewTablo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewTablo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -129,17 +131,30 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label3.Location = new System.Drawing.Point(51, 23);
+            this.label3.Location = new System.Drawing.Point(134, 32);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(755, 69);
+            this.label3.Size = new System.Drawing.Size(609, 69);
             this.label3.TabIndex = 6;
-            this.label3.Text = "DokuzTay Matbaa Tesisleri";
+            this.label3.Text = "Berk Matbaa Tesisleri";
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.button1.Location = new System.Drawing.Point(352, 234);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(160, 39);
+            this.button1.TabIndex = 7;
+            this.button1.TabStop = false;
+            this.button1.Text = "Kaydet";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -166,6 +181,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeriNo;
+        private System.Windows.Forms.Button button1;
     }
 }
 
